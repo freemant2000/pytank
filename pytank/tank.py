@@ -25,7 +25,8 @@ class Tank(QGraphicsRectItem):
     async def on_ready(self):
         #await self.move(200)
         #Bullet(self.gs, self.x(), self.y())
-        await self.turn(-30)
+        await self.turn(130)
+        Bullet(self.gs, self.x(), self.y(), self.heading)
         pass
         
     async def update(self):
