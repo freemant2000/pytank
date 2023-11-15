@@ -1,15 +1,13 @@
 from PySide6.QtWidgets import QGraphicsScene, QGraphicsEllipseItem
-from asyncio import create_task, sleep, get_event_loop
-import math
+from asyncio import create_task, sleep
+from scene_utils import get_delta_dist
 
 class Bullet(QGraphicsEllipseItem):
     diameter=4
     step=4
     def __init__(self, gs: QGraphicsScene, x, y, heading):
         super().__init__(0, 0, Bullet.diameter, Bullet.diameter)
-        heading_r=math.radians(heading)
-        self.dx=math.sin(heading_r)*Bullet.step
-        self.dy=-math.cos(heading_r)*Bullet.step
+        self.dx, self.dy=get_delta_dist(Bullet.step, heading)
         self.gs=gs
         self.gs.addItem(self)
         self.setPos(x, y)

@@ -1,15 +1,20 @@
-from asyncio import create_task, sleep, get_event_loop
-from qasync import QApplication
-from PySide6.QtWidgets import QGraphicsScene, QGraphicsRectItem
-from PySide6.QtCore import QEventLoop
+from asyncio import create_task, sleep
+from PySide6.QtWidgets import QGraphicsScene, QGraphicsPixmapItem
+from PySide6.QtGui import QPixmap
+from PySide6.QtCore import Qt
 from bullet import Bullet
+from scene_utils import get_delta_dist
 
-class Tank(QGraphicsRectItem):
-    w=50
-    h=70
-    center_h=35
+class Tank(QGraphicsPixmapItem):
+    w=40
+    h=40
+    center_h=0.58*h
+    center_to_top=h-center_h
     def __init__(self, gs: QGraphicsScene, x, y):
-        super().__init__(0, 0, Tank.w, Tank.h)
+        pm=QPixmap("pytank/tank.png")
+        pm2=pm.scaled(Tank.w, Tank.h, Qt.AspectRatioMode.IgnoreAspectRatio, Qt.TransformationMode.SmoothTransformation)
+        super().__init__(pm2)
+        self.setOffset(-Tank.w//2, -Tank.center_h)
         self.gs=gs
         self.heading=0
         self.setPos(x, y)
@@ -19,14 +24,14 @@ class Tank(QGraphicsRectItem):
 
     def set_heading(self, h):
         self.heading=h
-        self.setTransformOriginPoint(Tank.w/2, Tank.center_h)
         self.setRotation(self.heading)
 
     async def on_ready(self):
         #await self.move(200)
         #Bullet(self.gs, self.x(), self.y())
-        await self.turn(130)
-        Bullet(self.gs, self.x(), self.y(), self.heading)
+        await self.turn(30)
+        dx, dy=get_delta_dist(Tank.center_to_top, self.heading)
+        Bullet(self.gs, self.x()+dx, self.y()+dy, self.heading)
         pass
         
     async def update(self):
