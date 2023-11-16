@@ -2,8 +2,8 @@ from asyncio import create_task, sleep
 from PySide6.QtWidgets import QGraphicsScene, QGraphicsPixmapItem
 from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt
-from bullet import Bullet
-from scene_utils import get_xy_proj, select_items
+from pytank.bullet import Bullet
+from pytank.scene_utils import get_xy_proj, select_items
 
 class Tank(QGraphicsPixmapItem):
     w=40

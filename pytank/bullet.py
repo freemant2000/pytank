@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QGraphicsScene, QGraphicsEllipseItem, QGraphicsRectItem
 from asyncio import create_task, sleep
-from scene_utils import get_xy_proj
+from pytank.scene_utils import get_xy_proj
 
 class Bullet(QGraphicsEllipseItem):
     diameter=4
