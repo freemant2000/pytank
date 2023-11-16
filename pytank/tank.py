@@ -3,7 +3,7 @@ from PySide6.QtWidgets import QGraphicsScene, QGraphicsPixmapItem
 from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt
 from bullet import Bullet
-from scene_utils import get_xy_proj
+from scene_utils import get_xy_proj, select_items
 
 class Tank(QGraphicsPixmapItem):
     w=40
@@ -44,12 +44,14 @@ class Tank(QGraphicsPixmapItem):
 
     async def on_ready(self):
         #await self.turn(30)
-        await self.move(100)
-        self.fire()
-        await self.turn_gun(90)
+        await sleep(1)
+        select_items(self.gs, [(200, 300), (210, 300), (210, 0), (200, 0)])
+        #await self.move(100)
+        #self.fire()
+        #await self.turn_gun(90)
         #Bullet(self.gs, self.x(), self.y())
         #await self.turn(30)
-        self.fire()
+        #self.fire()
         pass
         
     async def update(self):

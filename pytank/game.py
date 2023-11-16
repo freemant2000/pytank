@@ -1,6 +1,6 @@
 import asyncio
 import qasync
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QGraphicsScene, QGraphicsView, QGraphicsRectItem
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QGraphicsScene, QGraphicsView
 from qasync import QApplication
 from tank import Tank
 
@@ -16,6 +16,7 @@ class MainWindow(QWidget):
         self.layout().addWidget(self.gv)
         self.layout().update()
         Tank(self.gs, 200, 300)
+        Tank(self.gs, 200, 100)
     
 async def main():
     def leave():
