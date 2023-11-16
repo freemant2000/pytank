@@ -15,7 +15,6 @@ class MainWindow(QWidget):
         self.setLayout(QVBoxLayout())
         self.layout().addWidget(self.gv)
         self.layout().update()
-        #Tank(self.gs, 0, 0)
         Tank(self.gs, 200, 300)
     
 async def main():
