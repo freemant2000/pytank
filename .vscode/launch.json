@@ -10,7 +10,7 @@
             "type": "python",
             "request": "launch",
             "module": "pytank.examples.example1"
-        }
+        },
         {
             "name": "game 1",
             "type": "python",
