@@ -1,4 +1,5 @@
 from asyncio import create_task, sleep
+from typing import Awaitable
 from PySide6.QtWidgets import QGraphicsScene, QGraphicsPixmapItem
 from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt
@@ -12,7 +13,7 @@ class Tank(QGraphicsPixmapItem):
     center_to_top=h-center_h
     step=4
     step_degree=3
-    def __init__(self, gs: QGraphicsScene, x: int, y: int):
+    def __init__(self, gs: QGraphicsScene, x: int, y: int, on_ready: Awaitable):
         self.pending_dist=0
         self.pending_angle=0
         self.pending_gun_angle=0
@@ -31,7 +32,7 @@ class Tank(QGraphicsPixmapItem):
         self.gun.setOffset(-Tank.w//2, -Tank.center_to_top)
         self.gun.setPos(x, y)
         self.gs.addItem(self.gun)
-        create_task(self.on_ready())
+        create_task(on_ready(self))
         create_task(self.update())
 
     def set_heading(self, h: int):
@@ -42,18 +43,6 @@ class Tank(QGraphicsPixmapItem):
         self.gun_heading=h
         self.gun.setRotation(self.gun_heading)
 
-    async def on_ready(self):
-        #await self.turn(30)
-        await sleep(1)
-        select_items(self.gs, [(200, 300), (210, 300), (210, 0), (200, 0)])
-        #await self.move(100)
-        #self.fire()
-        #await self.turn_gun(90)
-        #Bullet(self.gs, self.x(), self.y())
-        #await self.turn(30)
-        #self.fire()
-        pass
-        
     async def update(self):
         while True:
             await sleep(0.1)
