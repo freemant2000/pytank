@@ -27,5 +27,5 @@ async def turn(d: int):
 async def turn_gun(d: int):
     await the_tank.turn_gun(d)
 
-def fire():
-    the_tank.fire()
+def fire(energy: int=1):
+    the_tank.fire(energy)

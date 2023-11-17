@@ -92,6 +92,14 @@ class Tank(QGraphicsPixmapItem):
         while self.pending_gun_angle!=0:
             await sleep(0)
     
-    def fire(self):
+    def fire(self, energy: int=1):
+        if energy<1 or energy>3:
+            print(f"invalid energy {energy}")
+            return
+        if energy>self.energy:
+            print("out of energy")
+            return
+        self.energy-=energy
+        self.update_info()
         dx, dy=get_xy_proj(Tank.center_to_top, self.gun_heading)
-        Bullet(self.gs, self.x()+dx, self.y()+dy, self.gun_heading)
+        Bullet(self.gs, self.x()+dx, self.y()+dy, self.gun_heading, energy)
