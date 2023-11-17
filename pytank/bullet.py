@@ -6,11 +6,11 @@ from pytank.scene_utils import get_xy_proj
 class Bullet(QGraphicsEllipseItem):
     diameter=4
     step=4
-    def __init__(self, gs: QGraphicsScene, x: int, y: int, heading: int, energy: int=1):
-        d=Bullet.diameter*energy
+    def __init__(self, gs: QGraphicsScene, x: int, y: int, heading: int, power: int=1):
+        d=Bullet.diameter*power
         super().__init__(-d//2, -d//2, d, d)
         self.dx, self.dy=get_xy_proj(Bullet.step, heading)
-        self.energy=energy
+        self.power=power
         self.gs=gs
         self.setBrush(QBrush(QColor("black")))
         self.gs.addItem(self)
