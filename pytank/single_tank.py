@@ -15,7 +15,7 @@ async def on_tank_ready(tank: Tank):
 def start():
     def on_game_ready(game):
         global the_tank
-        the_tank=Tank(game.gs, 200, 300, on_tank_ready)
+        the_tank=Tank(game.gs, "T1", 250, 330, on_tank_ready)
     start_game(on_game_ready)
 
 async def move(d: int):

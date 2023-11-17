@@ -1,6 +1,6 @@
 from asyncio import create_task, sleep
 from typing import Awaitable
-from PySide6.QtWidgets import QGraphicsScene, QGraphicsPixmapItem
+from PySide6.QtWidgets import QGraphicsScene, QGraphicsPixmapItem, QGraphicsTextItem
 from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt
 from pytank.bullet import Bullet
@@ -13,7 +13,9 @@ class Tank(QGraphicsPixmapItem):
     center_to_top=h-center_h
     step=4
     step_degree=3
-    def __init__(self, gs: QGraphicsScene, x: int, y: int, on_ready: Awaitable):
+    def __init__(self, gs: QGraphicsScene, name: str, x: int, y: int, on_ready: Awaitable):
+        self.name=name
+        self.energy=20
         self.pending_dist=0
         self.pending_angle=0
         self.pending_gun_angle=0
@@ -32,9 +34,19 @@ class Tank(QGraphicsPixmapItem):
         self.gun.setOffset(-Tank.w//2, -Tank.center_to_top)
         self.gun.setPos(x, y)
         self.gs.addItem(self.gun)
+        self.info=QGraphicsTextItem()
+        font=self.info.font()
+        font.setPointSize(8)
+        self.info.setFont(font)
+        self.info.setPos(x-Tank.w//2, y+Tank.center_h)
+        self.info.setTextWidth(Tank.w)
+        self.update_info()
+        self.gs.addItem(self.info)
         create_task(on_ready(self))
         create_task(self.update())
-
+    
+    def update_info(self):
+        self.info.setHtml(f"<center>{self.name}<br>{self.energy}</center>")
     def set_heading(self, h: int):
         self.heading=h
         self.setRotation(self.heading)
@@ -52,6 +64,7 @@ class Tank(QGraphicsPixmapItem):
                 dx, dy=get_xy_proj(s, self.heading)
                 self.setPos(self.x()+dx, self.y()+dy)
                 self.gun.setPos(self.gun.x()+dx, self.gun.y()+dy)
+                self.info.setPos(self.info.x()+dx, self.info.y()+dy)
                 self.pending_dist-=sign*s
             if self.pending_angle!=0:
                 sign=1 if self.pending_angle>0 else -1
